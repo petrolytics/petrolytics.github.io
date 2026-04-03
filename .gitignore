@@ -30,4 +30,4 @@ dist-ssr
 !.env.example
 
 # Données récupérées automatiquement
-public/market_snapshot.json
+# public/market_snapshot.json (Maintenant versionné pour garantir la synchro locale/prod)
