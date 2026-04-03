@@ -8,7 +8,7 @@ const monthsDict = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août",
 
 async function generateDataSet() {
     const dataSet = [];
-    
+
     // 1. Précharger les marchés financiers (Repositories)
     const markets = await FuelDataRepository.fetchMarkets();
     const fuelRegistry = getSupportedFuels(); // Le registre pilote la boucle !
@@ -18,7 +18,7 @@ async function generateDataSet() {
             if (year === 2026 && m > 3) break; // Avril 2026
 
             const dataPoint = { date: `${monthsDict[m]} ${year}` };
-            
+
             // 2. La boucle parcourt désormais les carburants déclarés SEULEMENT dans le registre.
             // Zéro dépendance en dur à 'Gazole' ou 'SP95' ici.
             for (const f of fuelRegistry) {
@@ -29,7 +29,7 @@ async function generateDataSet() {
                     dataPoint[type] = enrichedPoint;
                 }
             }
-            
+
             dataSet.push(dataPoint);
         }
     }

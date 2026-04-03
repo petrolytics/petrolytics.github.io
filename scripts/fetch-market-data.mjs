@@ -55,15 +55,22 @@ async function fetchSeries(seriesId) {
         const key = monthKeys[i];
         const values = grouped[key];
         
-        // Pour le tout dernier mois (en cours), on prend le dernier prix "Spot" connu
-        if (i === monthKeys.length - 1) {
-            result[key] = values[values.length - 1];
-        } else {
-            // Pour les mois clôturés, on fait la moyenne exacte
-            const sum = values.reduce((a, b) => a + b, 0);
-            result[key] = Number((sum / values.length).toFixed(3));
-        }
+        // Tous les mois de l'historique FRED sont lissés en une moyenne mensuelle vraie.
+        // Cela empêche le mois dernier (ex: Mars) de capter tout le pic spot de fin de mois.
+        const sum = values.reduce((a, b) => a + b, 0);
+        result[key] = Number((sum / values.length).toFixed(3));
     }
+
+    // On injecte le pic spot réel (121.88$) sous la clé du mois exact d'aujourd'hui (Avril) !
+    // Cela crée la pente (Mars(Moyenne) -> Avril(Spot Actuel)) au lieu d'un faux plateau inventé.
+    const today = new Date();
+    const currentKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+    
+    const lastKey = monthKeys[monthKeys.length - 1];
+    const lastValues = grouped[lastKey];
+    const absoluteLatestSpot = lastValues[lastValues.length - 1]; // vrai prix spot
+    
+    result[currentKey] = absoluteLatestSpot;
 
     return result;
 }
