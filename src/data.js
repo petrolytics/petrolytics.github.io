@@ -3,7 +3,6 @@ import { FuelDataRepository } from './application/repositories/FuelDataRepositor
 import { getSupportedFuels } from '../data/FuelRegistry.js';
 
 const startYear = 2000;
-const endYear = 2026;
 const monthsDict = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
 
 async function generateDataSet() {
