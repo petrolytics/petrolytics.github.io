@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *' # Tous les jours à 3h00 UTC (4h00/5h00 heure française)
 
 permissions:
   contents: write
@@ -23,6 +25,15 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Fetch official prices from DGEC
+        run: node scripts/fetch-dgec-prices.mjs
+
+      - name: Commit updated snapshots to repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "[bot] chore: auto-update daily prices snapshot"
+          file_pattern: 'data/sources/*.js data/InseeFuelHistory.js'
 
       - name: Fetch market data from FRED
         env:
