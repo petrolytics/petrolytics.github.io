@@ -62,27 +62,21 @@
                 </div>
             </div>
             
-            <div class="filters-panel" id="componentFilters">
-                <button class="filter-chip active" data-comp="Total">Prix TTC</button>
-                <button class="filter-chip active" data-comp="Oil">Pétrole</button>
-                <button class="filter-chip active" data-comp="TICPE">TICPE</button>
-                <button class="filter-chip active" data-comp="CEE">CEE</button>
-                <button class="filter-chip active" data-comp="VAT">TVA</button>
-                <button class="filter-chip active" data-comp="Refining">Raffinage</button>
-                <button class="filter-chip active" data-comp="Distro">Vente</button>
+            <div class="methodology-disclaimer" style="font-size: 0.85rem; color: #94a3b8; background: rgba(51, 65, 85, 0.3); padding: 1rem; border-radius: 8px; margin-top: 1rem; line-height: 1.5;">
+                <strong>💡 Note de méthodologie :</strong> Les marges nettes (Raffinage et Vente) sont calculées par **méthode résiduelle** en déduisant les coûts fixes (Prix du brut estimé via Brent, TICPE, CEE et TVA) du prix de vente final (INSEE/DGEC). La répartition historique (55% / 45%) est une approximation.
             </div>
         </div>
 
         <div class="footer-links" style="text-align: center; margin-top: 1.5rem; padding-bottom: 1.5rem; color: #64748b; font-size: 0.9rem;">
             Petrolytics Open-Data | 
-            <a href="https://github.com/alex-ception/petrolytics" target="_blank" style="color: #cbd5e1; text-decoration: underline; margin-left: 0.5rem; margin-right: 0.5rem;">
-                <i data-lucide="github" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i> Code Source (GitHub)
+            <a href="https://github.com/alex-ception/petrolytics" target="_blank" style="color: #cbd5e1; text-decoration: underline; margin-left: 0.5rem; margin-right: 0.5rem; display: inline-flex; align-items: center; gap: 4px;">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                Code Source (GitHub)
             </a> 
             | Sous licence Any-Ware
         </div>
     </div>
 
-    <!-- Apache ECharts and Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Apache ECharts -->
 </body>
 </html>
