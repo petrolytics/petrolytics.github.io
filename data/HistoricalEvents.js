@@ -41,7 +41,7 @@ export const HISTORICAL_EVENTS = [
         markerLabel: 'Alignement ⚖️',
         title: 'Alignement des Taxes ⚖️',
         desc: 'Aboutissement du "rattrapage fiscal" : le Diesel perd son avantage historique et dépasse le Sans-Plomb.',
-        offsetLeft: true
+        offsetLeft: false
     },
     {
         date: 'Mar 2026',
