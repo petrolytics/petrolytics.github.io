@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Petrolytics</title>
-    
+
     <!-- Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-  <script type="module" crossorigin src="/petrolytics/assets/index-CcSsdV93.js"></script>
-  <link rel="stylesheet" crossorigin href="/petrolytics/assets/index-D6Yqe4oU.css">
+
+  <script type="module" crossorigin src="/assets/index-BB7fg3ic.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Bg_IjOPE.css">
 </head>
+
 <body data-theme="light">
     <div class="dashboard">
         <header>
             <div class="logo-section">
                 <h1>Petrolytics</h1>
                 <a href="https://github.com/alex-ception/petrolytics" target="_blank" class="github-link">
-                    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                        </path>
+                    </svg>
                     Code Source
                 </a>
             </div>
@@ -31,7 +37,8 @@
                     <button class="control-btn" data-type="SP95">SP95</button>
                     <button class="control-btn" data-type="SP98">SP98</button>
                 </div>
-                <div id="retailerSwitcher" style="display:inline-flex; gap:0.5rem; margin-left:1rem; border-left:1px solid #334155; padding-left:1rem;">
+                <div id="retailerSwitcher"
+                    style="display:inline-flex; gap:0.5rem; margin-left:1rem; border-left:1px solid #334155; padding-left:1rem;">
                     <button class="control-btn active" data-retailer="National">🌍 National</button>
                     <button class="control-btn" data-retailer="Supermarket">🛒 Supermarché</button>
                     <button class="control-btn" data-retailer="Premium">⛽ Marque</button>
@@ -43,7 +50,8 @@
             <div class="stat-card" id="currentPriceCard">
                 <div class="label" style="display: flex; align-items: center; justify-content: space-between;">
                     Prix au litre
-                    <span style="background: #ef4444; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; letter-spacing: 0.5px;">LIVE</span>
+                    <span
+                        style="background: #ef4444; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; letter-spacing: 0.5px;">LIVE</span>
                 </div>
                 <div class="value">--€</div>
             </div>
@@ -54,7 +62,8 @@
             <div class="stat-card" id="marginTrendCard">
                 <div class="label">Marge nette (R+D)</div>
                 <div class="value">--€</div>
-                <div class="subtext" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;"></div>
+                <div class="subtext" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                </div>
             </div>
         </div>
 
@@ -68,19 +77,26 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="methodology-disclaimer">
-                <strong>💡 Note de méthodologie :</strong> Les marges nettes (Raffinage et Vente) sont calculées par **méthode résiduelle** en déduisant les coûts fixes (Prix du brut estimé via Brent, TICPE, CEE et TVA) du prix de vente final (INSEE/DGEC). La répartition historique (55% / 45%) est une approximation.
+                <strong>💡 Note de méthodologie :</strong> Les marges nettes (Raffinage et Vente) sont calculées par
+                **méthode résiduelle** en déduisant les coûts fixes (Prix du brut estimé via Brent, TICPE, CEE et TVA)
+                du prix de vente final (INSEE/DGEC). La répartition historique (55% / 45%) est une approximation.
                 <br><br>
-                <em style="opacity: 0.9; font-size: 0.8rem;">⚠️ À noter : Ces "marges" englobent encore plusieurs coûts incompressibles qui ne sont pas du profit net pour le distributeur : 
-                la <strong>CPSSP</strong> (Comité Professionnel des Stocks Stratégiques Pétroliers), 
-                les taxes de <strong>Passage en Dépôt</strong>, et les <strong>Frais de Transport / Logistique</strong> (Pipelines type TRAPIL ou camions citernes entre la raffinerie et la station). 
-                <span style="color: #fb923c;">Aucune donnée Open Data publique et exploitable n'existe à ce jour pour isoler ces coûts avec précision.</span></em>
+                <em style="opacity: 0.9; font-size: 0.8rem;">⚠️ À noter : Ces "marges" englobent encore plusieurs coûts
+                    incompressibles qui ne sont pas du profit net pour le distributeur :
+                    la <strong>CPSSP</strong> (Comité Professionnel des Stocks Stratégiques Pétroliers),
+                    les taxes de <strong>Passage en Dépôt</strong>, et les <strong>Frais de Transport /
+                        Logistique</strong> (Pipelines type TRAPIL ou camions citernes entre la raffinerie et la
+                    station).
+                    <span style="color: #fb923c;">Aucune donnée Open Data publique et exploitable n'existe à ce jour
+                        pour isoler ces coûts avec précision.</span></em>
             </div>
         </div>
 
         <div class="footer-links">
-            <span style="display: block; margin-bottom: 1rem; font-style: italic;">🔄 Données mises à jour automatiquement tous les jours à ~04h00 (Heure Française)</span>
+            <span style="display: block; margin-bottom: 1rem; font-style: italic;">🔄 Données mises à jour
+                automatiquement tous les jours à ~04h00 (Heure Française)</span>
             Petrolytics Open-Data | Sous licence Any-Ware
         </div>
     </div>
@@ -88,4 +104,5 @@
     <!-- Apache ECharts -->
     <script data-goatcounter="https://petrolytics.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
+
 </html>
