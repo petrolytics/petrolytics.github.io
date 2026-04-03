@@ -37,10 +37,17 @@ export const HISTORICAL_EVENTS = [
     },
     {
         date: 'Jan 2026',
-        label: 'Avr 2026',
+        label: 'Jan 2026',
         markerLabel: 'Alignement ⚖️',
         title: 'Alignement des Taxes ⚖️',
         desc: 'Aboutissement du "rattrapage fiscal" : le Diesel perd son avantage historique et dépasse le Sans-Plomb.',
         offsetLeft: true
+    },
+    {
+        date: 'Mar 2026',
+        label: 'Mar 2026',
+        markerLabel: 'Crise Ormuz 🛢️',
+        title: 'Détroit d\'Ormuz 🛢️',
+        desc: 'Tensions géopolitiques historiques au Moyen-Orient provoquant l\'envolée brutale du cours mondial du brut.'
     }
 ];
