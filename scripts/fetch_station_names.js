@@ -9,42 +9,68 @@ async function updateStationMetadata() {
     console.log('--- Démarrage de l\'extraction des noms depuis OpenStreetMap ---');
     
     const overpassQuery = `
-[out:json][timeout:120];
+[out:json][timeout:300];
 nwr["amenity"="fuel"]["ref:FR:prix-carburants"];
 out tags;
     `.trim();
 
-    try {
-        const response = await fetch('https://overpass-api.de/api/interpreter', {
-            method: 'POST',
-            body: overpassQuery,
-            headers: { 'Content-Type': 'text/plain' }
-        });
+    const endpoints = [
+        'https://overpass-api.de/api/interpreter',
+        'https://overpass.openstreetmap.fr/api/interpreter',
+        'https://overpass.kumi.systems/api/interpreter'
+    ];
 
-        if (!response.ok) throw new Error(`Erreur Overpass: ${response.statusText}`);
+    let success = false;
+    let attempts = 0;
+    const maxAttempts = 5;
 
-        const data = await response.json();
-        const mapping = {};
+    while (!success && attempts < maxAttempts) {
+        attempts++;
+        const endpoint = endpoints[attempts % endpoints.length];
+        console.log(`Tentative ${attempts}/${maxAttempts} sur ${endpoint}...`);
 
-        console.log(`Données reçues : ${data.elements.length} stations trouvées.`);
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 240000); // 4 min timeout
 
-        data.elements.forEach(el => {
-            const tags = el.tags;
-            const govtId = tags['ref:FR:prix-carburants'];
-            const name = tags.brand || tags.name || tags.operator;
-            
-            if (govtId && name) {
-                mapping[govtId] = name;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                body: overpassQuery,
+                headers: { 'Content-Type': 'text/plain' },
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (!response.ok) throw new Error(`Erreur Overpass: ${response.status} ${response.statusText}`);
+
+            const data = await response.json();
+            if (!data || !data.elements) throw new Error('Format de réponse invalide');
+
+            const mapping = {};
+            data.elements.forEach(el => {
+                const tags = el.tags;
+                const govtId = tags['ref:FR:prix-carburants'];
+                const name = tags.brand || tags.name || tags.operator;
+                if (govtId && name) {
+                    mapping[govtId] = name;
+                }
+            });
+
+            fs.writeFileSync(OUTPUT_FILE, JSON.stringify(mapping));
+            console.log(`Succès ! Total stations mappées : ${Object.keys(mapping).length}`);
+            success = true;
+
+        } catch (error) {
+            console.error(`Échec tentative ${attempts}: ${error.message}`);
+            if (attempts < maxAttempts) {
+                console.log('Attente avant nouvelle tentative (10s)...');
+                await new Promise(resolve => setTimeout(resolve, 10000));
+            } else {
+                console.error('Toutes les tentatives ont échoué.');
+                process.exit(1);
             }
-        });
-
-        fs.writeFileSync(OUTPUT_FILE, JSON.stringify(mapping));
-        console.log(`Succès ! Fichier généré (Format simplifié ID:NAME) : ${OUTPUT_FILE}`);
-        console.log(`Total stations mappées : ${Object.keys(mapping).length}`);
-
-    } catch (error) {
-        console.error('Erreur lors de l\'extraction :', error);
-        process.exit(1);
+        }
     }
 }
 
