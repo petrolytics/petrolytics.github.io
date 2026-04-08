@@ -343,7 +343,7 @@
                     const header = document.createElement('div');
                     header.className = 'station-row-header';
                     header.innerHTML = `
-                        <div style="font-size: 0.95rem; font-weight:700; color:var(--text-primary);">${stationDisplayName}</div>
+                        <div style="font-size: 0.95rem; font-weight:700; color:var(--text-primary); text-transform: capitalize;">${stationDisplayName.toLowerCase()}</div>
                         <div style="color: var(--text-secondary); font-size: 0.75rem;">${station.adresse || ''}</div>
                         <div style="color: var(--text-secondary); font-size: 0.75rem;">${station.cp} ${station.ville}</div>
                     `;
