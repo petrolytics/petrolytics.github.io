@@ -139,10 +139,10 @@
                     Gazole</button>
                 <button type="button" class="control-btn" data-sort="sp95_prix"><span style="color:#10b981">●</span>
                     SP95</button>
+                <button type="button" class="control-btn" data-sort="e10_prix"><span style="color:#34d399">●</span>
+                    SP95-E10</button>
                 <button type="button" class="control-btn" data-sort="sp98_prix"><span style="color:#059669">●</span>
                     SP98</button>
-                <button type="button" class="control-btn" data-sort="e10_prix"><span style="color:#34d399">●</span>
-                    E10</button>
                 <button type="button" class="control-btn" data-sort="e85_prix"><span style="color:#3b82f6">●</span>
                     E85</button>
                 <button type="button" class="control-btn" data-sort="gplc_prix"><span style="color:#8b5cf6">●</span>
@@ -187,12 +187,28 @@
 
             let currentRecords = [];
             let currentSortKey = '';
+            let stationMeta = {};
+            let metaPromise = null;
+
+            async function loadStationMeta() {
+                if (metaPromise) return metaPromise;
+                metaPromise = (async () => {
+                    try {
+                        const res = await fetch('./public/stations_metadata.json');
+                        if (res.ok) {
+                            stationMeta = await res.json();
+                        }
+                    } catch (e) { console.warn('Meta stations non trouvées'); }
+                })();
+                return metaPromise;
+            }
+            loadStationMeta();
 
             const FUEL_MAPPING = [
                 { key: 'gazole_prix', name: 'Gazole', pos: 1, c: '#f59e0b' },
                 { key: 'sp95_prix', name: 'SP95', pos: 2, c: '#10b981' },
-                { key: 'sp98_prix', name: 'SP98', pos: 3, c: '#059669' },
-                { key: 'e10_prix', name: 'E10', pos: 4, c: '#34d399' },
+                { key: 'e10_prix', name: 'SP95-E10', pos: 3, c: '#34d399' },
+                { key: 'sp98_prix', name: 'SP98', pos: 4, c: '#059669' },
                 { key: 'e85_prix', name: 'E85', pos: 5, c: '#3b82f6' },
                 { key: 'gplc_prix', name: 'GPLc', pos: 6, c: '#8b5cf6' }
             ];
@@ -271,6 +287,9 @@
             }
 
             async function performSearch(cp, initialSort = null) {
+                // Ensure meta is loaded before showing results
+                await loadStationMeta();
+
                 nationalView.style.display = 'none';
                 localView.style.display = 'block';
                 backBtn.style.display = 'inline-block';
@@ -318,10 +337,13 @@
                     const card = document.createElement('div');
                     card.className = 'station-row-card';
 
+                    const stationDisplayName = stationMeta[station.id] || (station.adresse || 'Station Service');
+
                     const header = document.createElement('div');
                     header.className = 'station-row-header';
                     header.innerHTML = `
-                        <div style="font-size: 0.95rem; font-weight:700;">${station.adresse || 'Station Service'}</div>
+                        <div style="font-size: 0.95rem; font-weight:700; color:var(--text-primary);">${stationDisplayName}</div>
+                        <div style="color: var(--text-secondary); font-size: 0.75rem;">${station.adresse || ''}</div>
                         <div style="color: var(--text-secondary); font-size: 0.75rem;">${station.cp} ${station.ville}</div>
                     `;
 
