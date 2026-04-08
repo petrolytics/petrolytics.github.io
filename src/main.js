@@ -295,9 +295,9 @@ if (metadata && metadata.generated_at) {
     const d = new Date(metadata.generated_at);
     const dateStr = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
     const timeStr = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-    const footer = document.querySelector('.footer-links span');
-    if (footer) {
-        footer.innerText = `🔄 Données mises à jour le ${dateStr} à ${timeStr}`;
+    const lastUpdateSpan = document.getElementById('lastUpdateSpan');
+    if (lastUpdateSpan) {
+        lastUpdateSpan.innerText = `🔄 Données mises à jour le ${dateStr} à ${timeStr}`;
     }
 }
 

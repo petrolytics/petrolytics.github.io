@@ -28,8 +28,18 @@
                     Code Source
                 </a>
             </div>
-            <div class="controls">
-                <button class="control-btn" id="themeToggle">Thème</button>
+            <div class="controls" style="flex: 1; justify-content: flex-end;">
+                <form id="localSearchForm"
+                    style="display:inline-flex; gap:0.5rem; margin-right:auto; align-items:center;">
+                    <input type="text" id="cpSearchInput" placeholder="Saisir CP (ex: 38400)" pattern="[0-9]{5}"
+                        maxlength="5" class="control-btn"
+                        style="background: var(--bg-color); color: var(--text-primary); border-color: var(--border-color); width: 160px; outline: none;" />
+                    <button type="submit" class="control-btn"
+                        style="background: var(--accent-color); color: white; border-color: var(--accent-color);">📍
+                        Rechercher</button>
+                    <button type="button" id="backToNationalBtn" class="control-btn" style="display:none;">🏠
+                        Retour</button>
+                </form>
                 <button class="control-btn" id="scaleToggle">Mode %</button>
                 <div id="fuelTypeSwitcher" style="display:inline-flex; gap:0.5rem; margin-left:1rem;">
                     <button class="control-btn active" data-type="Gazole">Gazole</button>
@@ -37,75 +47,120 @@
                     <button class="control-btn" data-type="SP98">SP98</button>
                 </div>
                 <div id="retailerSwitcher"
-                    style="display:inline-flex; gap:0.5rem; margin-left:1rem; border-left:1px solid #334155; padding-left:1rem;">
+                    style="display:inline-flex; gap:0.5rem; margin-left:1rem; border-left:1px solid #334155; padding-left:1rem; margin-right:1rem;">
                     <button class="control-btn active" data-retailer="National">🌍 National</button>
                     <button class="control-btn" data-retailer="Supermarket">🛒 Supermarché</button>
                     <button class="control-btn" data-retailer="Premium">⛽ Marque</button>
                 </div>
+                <button class="control-btn" id="themeToggle" style="margin-left: auto;">Thème</button>
             </div>
         </header>
 
-        <div class="stats-row">
-            <div class="stat-card" id="currentPriceCard">
-                <div class="label" style="display: flex; align-items: center; justify-content: space-between;">
-                    Prix au litre
-                    <span
-                        style="background: #ef4444; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; letter-spacing: 0.5px;">LIVE</span>
+        <div id="nationalView">
+            <div class="stats-row">
+                <div class="stat-card" id="currentPriceCard">
+                    <div class="label" style="display: flex; align-items: center; justify-content: space-between;">
+                        Prix au litre
+                        <span
+                            style="background: #ef4444; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; letter-spacing: 0.5px;">LIVE</span>
+                    </div>
+                    <div class="value">--€</div>
                 </div>
-                <div class="value">--€</div>
+                <div class="stat-card" id="taxShareCard">
+                    <div class="label">Part des taxes</div>
+                    <div class="value">--%</div>
+                </div>
+                <div class="stat-card" id="marginTrendCard">
+                    <div class="label">Marge nette (R+D)</div>
+                    <div class="value">--€</div>
+                    <div class="subtext"></div>
+                </div>
+                <div class="stat-card" id="trendFocusCard">
+                    <div class="label">Tendance Flash (30j)</div>
+                    <div id="sparklineChart" style="height: 40px; margin-top: 0.5rem;"></div>
+                    <div class="variation-stats"></div>
+                </div>
             </div>
-            <div class="stat-card" id="taxShareCard">
-                <div class="label">Part des taxes</div>
-                <div class="value">--%</div>
-            </div>
-            <div class="stat-card" id="marginTrendCard">
-                <div class="label">Marge nette (R+D)</div>
-                <div class="value">--€</div>
-                <div class="subtext"></div>
-            </div>
-            <div class="stat-card" id="trendFocusCard">
-                <div class="label">Tendance Flash (30j)</div>
-                <div id="sparklineChart" style="height: 40px; margin-top: 0.5rem;"></div>
-                <div class="variation-stats"></div>
-            </div>
-        </div>
 
-        <div class="chart-section-full">
-            <div class="chart-main-row">
-                <div class="chart-container" id="mainChart"></div>
-                <div class="historical-sidebar" id="eventSidebar">
-                    <h3>Historique & Lois ⚖️</h3>
-                    <div id="eventList">
-                        <!-- Dynamic content via main.js -->
+            <div class="chart-section-full">
+                <div class="chart-main-row">
+                    <div class="chart-container" id="mainChart"></div>
+                    <div class="historical-sidebar" id="eventSidebar">
+                        <h3>Historique & Lois ⚖️</h3>
+                        <div id="eventList">
+                            <!-- Dynamic content via main.js -->
+                        </div>
                     </div>
                 </div>
+
+                <div class="methodology-disclaimer">
+                    <strong>💡 Source & Fiabilité des données :</strong>
+                    <p>Le prix TTC final à la pompe est une <strong>agrégation nationale</strong> provenant de deux
+                        sources complémentaires :
+                        les index mensuels certifiés de l'<strong>INSEE</strong> (moyenne de l'ensemble des points de
+                        vente en France métropolitaine) et le flux quotidien de la <strong>DGEC (DG Énergie et
+                            Climat)</strong>.
+                        Pour le mois en cours, le système calcule une moyenne glissante à partir des 10 000+
+                        stations-service répertoriées sur <strong>prix-carburants.gouv.fr</strong>, offrant ainsi une
+                        vision précise de la dynamique du marché national sous 24-48h.</p>
+
+                    <p>Le prix du brut est synchronisé avec le cours du <strong>Brent</strong> via la
+                        <strong>FRED</strong> (Federal Reserve), converti au taux <strong>Forex EUR/USD</strong> du
+                        jour.</p>
+
+                    <strong>🔍 Méthode de calcul :</strong>
+                    Les marges nettes (Raffinage et Vente) sont calculées par
+                    <strong>méthode résiduelle</strong> en déduisant les coûts fixes (Brut estimé, TICPE, CEE et TVA)
+                    du prix TTC constaté. La répartition historique Raffinage (55%) / Distribution (45%) est une
+                    convention analytique basée sur les rapports du CPDP.
+                    <br><br>
+                    <em style="opacity: 0.9; font-size: 0.8rem;">⚠️ À noter : Ces "marges" englobent encore plusieurs
+                        coûts
+                        incompressibles :
+                        la <strong>CPSSP</strong> (Stocks Stratégiques),
+                        le <strong>Passage en Dépôt</strong>, et les <strong>Frais de Transport /
+                            Logistique</strong> (Pipelines ou camions citernes).
+                        <span style="color: #fb923c;">Aucune donnée publique n'existe à ce jour
+                            pour isoler ces frais d'acheminement avec précision.</span></em>
+                </div>
             </div>
+        </div> <!-- end nationalView -->
 
-            <div class="methodology-disclaimer">
-                <strong>💡 Source & Fiabilité des données :</strong>
-                <p>Le prix TTC final à la pompe est une <strong>agrégation nationale</strong> provenant de deux sources complémentaires :
-                les index mensuels certifiés de l'<strong>INSEE</strong> (moyenne de l'ensemble des points de vente en France métropolitaine) et le flux quotidien de la <strong>DGEC (DG Énergie et Climat)</strong>. 
-                Pour le mois en cours, le système calcule une moyenne glissante à partir des 10 000+ stations-service répertoriées sur <strong>prix-carburants.gouv.fr</strong>, offrant ainsi une vision précise de la dynamique du marché national sous 24-48h.</p>
-                
-                <p>Le prix du brut est synchronisé avec le cours du <strong>Brent</strong> via la <strong>FRED</strong> (Federal Reserve), converti au taux <strong>Forex EUR/USD</strong> du jour.</p>
-
-                <strong>🔍 Méthode de calcul :</strong>
-                Les marges nettes (Raffinage et Vente) sont calculées par
-                <strong>méthode résiduelle</strong> en déduisant les coûts fixes (Brut estimé, TICPE, CEE et TVA)
-                du prix TTC constaté. La répartition historique Raffinage (55%) / Distribution (45%) est une convention analytique basée sur les rapports du CPDP.
-                <br><br>
-                <em style="opacity: 0.9; font-size: 0.8rem;">⚠️ À noter : Ces "marges" englobent encore plusieurs coûts
-                    incompressibles :
-                    la <strong>CPSSP</strong> (Stocks Stratégiques),
-                    le <strong>Passage en Dépôt</strong>, et les <strong>Frais de Transport /
-                        Logistique</strong> (Pipelines ou camions citernes).
-                    <span style="color: #fb923c;">Aucune donnée publique n'existe à ce jour
-                        pour isoler ces frais d'acheminement avec précision.</span></em>
+        <div id="localView" style="display:none; margin-bottom: 2rem;">
+            <div id="statusContainer"
+                style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 1rem; text-align: center; color: var(--text-secondary); background: var(--bg-card);">
+                Recherche en cours...
+            </div>
+            <div id="sortControls"
+                style="display:none; margin-bottom: 1rem; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <span style="font-size: 0.85rem; color: var(--text-secondary);">Trier par prix :</span>
+                <button type="button" class="control-btn active" data-sort="">Aucun</button>
+                <button type="button" class="control-btn" data-sort="gazole_prix"><span style="color:#f59e0b">●</span>
+                    Gazole</button>
+                <button type="button" class="control-btn" data-sort="sp95_prix"><span style="color:#10b981">●</span>
+                    SP95</button>
+                <button type="button" class="control-btn" data-sort="sp98_prix"><span style="color:#059669">●</span>
+                    SP98</button>
+                <button type="button" class="control-btn" data-sort="e10_prix"><span style="color:#34d399">●</span>
+                    E10</button>
+                <button type="button" class="control-btn" data-sort="e85_prix"><span style="color:#3b82f6">●</span>
+                    E85</button>
+                <button type="button" class="control-btn" data-sort="gplc_prix"><span style="color:#8b5cf6">●</span>
+                    GPLc</button>
+            </div>
+            </div>
+            <div id="resultsContainer"></div>
+            <div id="localDisclaimer" style="margin-top: 2rem; padding: 1rem; background: rgba(245, 158, 11, 0.05); border: 1px dashed #f59e0b44; border-radius: 8px; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">
+                <strong style="color: #f59e0b;">⚖️ Note sur la fiabilité :</strong> Les prix affichés ici sont synchronisés en temps réel avec le flux officiel du gouvernement (DGEC). 
+                Ils <strong>doivent correspondre exactement</strong> aux prix affichés sur le totem de la station. 
+                Si vous constatez une différence, la loi oblige la station à mettre à jour ses tarifs sous peine de sanctions. 
+                Vous pouvez signaler toute anomalie directement sur 
+                <a href="https://www.prix-carburants.gouv.fr" target="_blank" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">prix-carburants.gouv.fr</a>.
             </div>
         </div>
 
         <div class="footer-links">
-            <span style="display: block; margin-bottom: 1rem; font-style: italic;">🔄 Données mises à jour
+            <span id="lastUpdateSpan" style="display: block; margin-bottom: 1rem; font-style: italic;">🔄 Données mises à jour
                 automatiquement tous les jours à ~04h00 (Heure Française)</span>
             Petrolytics Open-Data | Sous licence Any-Ware
         </div>
@@ -113,6 +168,248 @@
 
     <!-- Apache ECharts -->
     <script type="module" src="./src/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchForm = document.getElementById('localSearchForm');
+            const searchInput = document.getElementById('cpSearchInput');
+            const nationalView = document.getElementById('nationalView');
+            const localView = document.getElementById('localView');
+            const backBtn = document.getElementById('backToNationalBtn');
+            const statusContainer = document.getElementById('statusContainer');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const sortControls = document.getElementById('sortControls');
+            const sortBtns = sortControls.querySelectorAll('button[data-sort]');
+            const lastUpdateSpan = document.getElementById('lastUpdateSpan');
+
+            const scaleToggle = document.getElementById('scaleToggle');
+            const fuelTypeSwitcher = document.getElementById('fuelTypeSwitcher');
+            const retailerSwitcher = document.getElementById('retailerSwitcher');
+
+            let currentRecords = [];
+            let currentSortKey = '';
+
+            const FUEL_MAPPING = [
+                { key: 'gazole_prix', name: 'Gazole', pos: 1, c: '#f59e0b' },
+                { key: 'sp95_prix', name: 'SP95', pos: 2, c: '#10b981' },
+                { key: 'sp98_prix', name: 'SP98', pos: 3, c: '#059669' },
+                { key: 'e10_prix', name: 'E10', pos: 4, c: '#34d399' },
+                { key: 'e85_prix', name: 'E85', pos: 5, c: '#3b82f6' },
+                { key: 'gplc_prix', name: 'GPLc', pos: 6, c: '#8b5cf6' }
+            ];
+
+            function applySort(sortBy, syncHash = true) {
+                currentSortKey = sortBy;
+
+                // Sync to hash
+                if (syncHash) {
+                    const params = new URLSearchParams(window.location.hash.substring(1));
+                    if (sortBy) params.set('sort', sortBy);
+                    else params.delete('sort');
+                    window.location.hash = params.toString();
+                }
+
+                if (!sortBy) return displayResults(currentRecords);
+
+                const sorted = [...currentRecords].sort((a, b) => {
+                    const priceA = a[sortBy];
+                    const priceB = b[sortBy];
+
+                    if (!priceA && !priceB) return 0;
+                    if (!priceA) return 1; // Rupture or missing goes to the end
+                    if (!priceB) return -1;
+                    return parseFloat(priceA) - parseFloat(priceB);
+                });
+
+                displayResults(sorted);
+            }
+
+            sortBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const sortBy = btn.getAttribute('data-sort');
+                    applySort(sortBy);
+                    // active class is handled in applySort or here
+                    sortBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-sort') === sortBy));
+                });
+            });
+
+            backBtn.addEventListener('click', () => {
+                window.location.hash = ''; // triggers hashchange to revert view
+            });
+
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const cp = searchInput.value.trim();
+                if (cp.length === 5) {
+                    window.location.hash = 'cp=' + cp;
+                }
+            });
+
+            window.addEventListener('hashchange', checkHash);
+
+            // Triggered on load and on back/forward navigation
+            function checkHash() {
+                const hash = window.location.hash.substring(1);
+                const params = new URLSearchParams(hash);
+                const cp = params.get('cp');
+                const sort = params.get('sort');
+
+                if (cp && cp.length === 5) {
+                    searchInput.value = cp;
+                    performSearch(cp, sort);
+                    return;
+                }
+
+                // Fallback: National View
+                localView.style.display = 'none';
+                nationalView.style.display = 'block';
+                backBtn.style.display = 'none';
+                scaleToggle.style.display = 'inline-block';
+                fuelTypeSwitcher.style.display = 'inline-flex';
+                retailerSwitcher.style.display = 'inline-flex';
+                searchInput.value = '';
+                if (lastUpdateSpan) lastUpdateSpan.style.display = 'block';
+            }
+
+            async function performSearch(cp, initialSort = null) {
+                nationalView.style.display = 'none';
+                localView.style.display = 'block';
+                backBtn.style.display = 'inline-block';
+                scaleToggle.style.display = 'none';
+                fuelTypeSwitcher.style.display = 'none';
+                retailerSwitcher.style.display = 'none';
+                if (lastUpdateSpan) lastUpdateSpan.style.display = 'none';
+
+                statusContainer.style.display = 'block';
+                statusContainer.innerHTML = 'Recherche en cours...';
+                resultsContainer.innerHTML = '';
+
+                try {
+                    const url = `https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?limit=100&where=cp=%22${cp}%22`;
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error('API Error');
+                    const data = await res.json();
+
+                    if (data.results && data.results.length > 0) {
+                        currentRecords = data.results;
+                        statusContainer.style.display = 'none';
+                        sortControls.style.display = 'flex';
+
+                        const sortToApply = initialSort || '';
+                        sortBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-sort') === sortToApply));
+                        applySort(sortToApply, false); // false to avoid redundant hash update
+                    } else {
+                        currentRecords = [];
+                        sortControls.style.display = 'none';
+                        statusContainer.innerHTML = 'Aucune station trouvée pour ce code postal.';
+                    }
+                } catch (err) {
+                    currentRecords = [];
+                    sortControls.style.display = 'none';
+                    statusContainer.innerHTML = '<span style="color: #ef4444;">Erreur lors de la récupération des données.</span>';
+                }
+            }
+
+            // Init
+            checkHash();
+
+            function displayResults(records) {
+                resultsContainer.innerHTML = '';
+                records.forEach(station => {
+                    const card = document.createElement('div');
+                    card.className = 'station-row-card';
+
+                    const header = document.createElement('div');
+                    header.className = 'station-row-header';
+                    header.innerHTML = `
+                        <div style="font-size: 0.95rem; font-weight:700;">${station.adresse || 'Station Service'}</div>
+                        <div style="color: var(--text-secondary); font-size: 0.75rem;">${station.cp} ${station.ville}</div>
+                    `;
+
+                    const grid = document.createElement('div');
+                    grid.className = 'fuels-grid';
+
+                    let hasFuels = false;
+
+                    FUEL_MAPPING.forEach(fuel => {
+                        const price = station[fuel.key];
+                        const majKey = fuel.key.replace('_prix', '_maj');
+                        const ruptureKey = fuel.key.replace('_prix', '_rupture_type');
+                        const ruptureDebutKey = fuel.key.replace('_prix', '_rupture_debut');
+                        let ruptureType = station[ruptureKey];
+                        const majDateStr = station[majKey];
+                        const ruptureDebutStr = station[ruptureDebutKey];
+
+                        let majStr = '';
+                        if (majDateStr) {
+                            const d = new Date(majDateStr);
+                            majStr = d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', timeZone: 'UTC' }) + ' ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+                        }
+
+                        let ruptureStr = '';
+                        let ruptureTimeStr = '';
+                        if (ruptureDebutStr) {
+                            const rd = new Date(ruptureDebutStr);
+                            const currentY = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Paris" })).getFullYear();
+                            if (rd.getFullYear() !== currentY) {
+                                ruptureType = null; // Un-flag stale (e.g. 2023) or future ruptures
+                            } else {
+                                ruptureStr = rd.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' });
+                                ruptureTimeStr = rd.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+                            }
+                        }
+
+                        // Do not display if it's a definitive shortage
+                        if (ruptureType === 'definitive') {
+                            return; // Skip this fuel completely
+                        }
+
+                        if (price || ruptureType === 'temporaire') {
+                            hasFuels = true;
+                            const slot = document.createElement('div');
+                            slot.className = 'fuel-slot';
+                            slot.style.gridColumn = fuel.pos;
+
+                            const isHighlighted = currentSortKey === fuel.key;
+                            if (isHighlighted) {
+                                slot.style.background = ruptureType === 'temporaire' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(52, 211, 153, 0.25)';
+                            }
+
+                            const inner = document.createElement('div');
+                            inner.className = 'fuel-inner';
+
+                            if (ruptureType === 'temporaire') {
+                                inner.style.borderTop = `3px solid #ef4444`;
+                                inner.style.background = 'var(--bg-card)'; // keep it white/bg-card as requested
+                                inner.innerHTML = `
+                                    <span style="display:block; font-size:0.65rem; font-weight:700; color:var(--text-secondary); margin-bottom:0.15rem;">${fuel.name}</span>
+                                    <span style="display:block; font-size:0.75rem; font-weight:700; color:#ef4444; margin-top: auto; text-transform:uppercase;">Rupture</span>
+                                    ${ruptureStr ? `<span style="display:block; font-size:0.55rem; color:var(--text-secondary); margin-top:0.15rem;">${ruptureStr} ${ruptureTimeStr}</span>` : ''}
+                                `;
+                            } else {
+                                inner.style.borderTop = `3px solid ${fuel.c}`;
+                                inner.innerHTML = `
+                                    <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom:0.15rem;">
+                                        <span style="font-size:0.65rem; font-weight:700; color:var(--text-secondary);">${fuel.name}</span>
+                                        <span style="background:#ef4444; color:white; padding:1px 3px; border-radius:3px; font-size:0.5rem; font-weight:bold;">LIVE</span>
+                                    </div>
+                                    <span style="display:block; font-size:0.95rem; font-weight:700; color:var(--text-primary); margin-top: auto;">${parseFloat(price).toFixed(3)}</span>
+                                    <span style="display:block; font-size:0.55rem; color:var(--text-secondary); margin-top:0.2rem;" title="Mise à jour">${majStr}</span>
+                                `;
+                            }
+                            slot.appendChild(inner);
+                            grid.appendChild(slot);
+                        }
+                    });
+
+                    if (hasFuels) {
+                        card.appendChild(header);
+                        card.appendChild(grid);
+                        resultsContainer.appendChild(card);
+                    }
+                });
+            }
+        });
+    </script>
     <script data-goatcounter="https://petrolytics.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 
