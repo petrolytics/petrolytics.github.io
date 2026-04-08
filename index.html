@@ -194,7 +194,7 @@
                 if (metaPromise) return metaPromise;
                 metaPromise = (async () => {
                     try {
-                        const res = await fetch('./public/stations_metadata.json');
+                        const res = await fetch('./stations_metadata.json');
                         if (res.ok) {
                             stationMeta = await res.json();
                         }
