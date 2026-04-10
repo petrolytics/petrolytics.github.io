@@ -16,12 +16,12 @@ fetch-market:
 fetch-prices:
 	docker-compose run --rm fetch-data node scripts/fetch-dgec-prices.mjs
 
-# Récupère les noms des stations depuis OpenStreetMap
+# Récupère les noms des stations depuis OSM (Mirroirs) - Isolé car instable
 fetch-names:
 	docker-compose run --rm fetch-names
 
-# Fetch toutes les sources (FRED + DGEC + OSM)
-fetch-data: fetch-market fetch-prices fetch-names
+# Fetch toutes les sources (FRED + DGEC)
+fetch-data: fetch-market fetch-prices
 
 # Build complet pour GitHub Pages
 build: fetch-data

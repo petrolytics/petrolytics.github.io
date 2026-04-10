@@ -34,14 +34,11 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: node scripts/fetch-market-data.mjs
 
-      - name: Fetch station names from OSM
-        run: node scripts/fetch_station_names.js
-
       - name: Commit updated snapshots to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "[bot] chore: auto-update daily data snapshots (DGEC, FRED & OSM)"
-          file_pattern: 'data/sources/*.js data/InseeFuelHistory.js public/market_snapshot.json public/stations_metadata.json'
+          commit_message: "[bot] chore: auto-update daily data snapshots (DGEC & FRED)"
+          file_pattern: 'data/sources/*.js data/InseeFuelHistory.js public/market_snapshot.json'
 
 
       - name: Build

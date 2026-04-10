@@ -1,0 +1,30 @@
+name: Update Station Metadata (Monthly)
+
+on:
+  schedule:
+    - cron: '0 0 1 * *' # 1er de chaque mois à minuit
+  workflow_dispatch: # Permet de lancer manuellement
+
+jobs:
+  update-meta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm install
+
+      - name: Fetch station names from OSM mirrors
+        run: node scripts/fetch_station_names.js
+
+      - name: Commit updated metadata
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "[bot] chore: monthly update of station metadata (OSM)"
+          file_pattern: 'public/stations_metadata.json'
