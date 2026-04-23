@@ -1,7 +1,7 @@
 // GÉNÉRÉ par scripts/fetch-dgec-prices.mjs — NE PAS ÉDITER À LA MAIN
 // Source : INSEE / BDM — bdm.insee.fr/series/sdmx
 // Séries : Gazole [object Object], SP95 [object Object], SP98 [object Object], GPL [object Object]
-// Généré le : 2026-04-23T00:11:36.634Z
+// Généré le : 2026-04-23T03:55:56.707Z
 
 export const FUEL_PRICE_HISTORY = {
     Gazole: {
