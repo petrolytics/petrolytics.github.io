@@ -1,7 +1,7 @@
 // GÉNÉRÉ par scripts/fetch-dgec-prices.mjs — NE PAS ÉDITER À LA MAIN
 // Source : INSEE / BDM — bdm.insee.fr/series/sdmx
 // Séries : Gazole [object Object], SP95 [object Object], SP98 [object Object], GPL [object Object]
-// Généré le : 2026-07-20T05:09:21.943Z
+// Généré le : 2026-07-20T08:25:25.163Z
 
 export const FUEL_PRICE_HISTORY = {
     Gazole: {
@@ -39,7 +39,7 @@ export const FUEL_PRICE_HISTORY = {
         2023: [1.920, 1.860, 1.850, 1.810, 1.690, 1.700, 1.720, 1.850, 1.930, 1.910, 1.840, 1.770],
         2024: [1.750, 1.830, 1.800, 1.790, 1.730, 1.710, 1.730, 1.670, 1.610, 1.630, 1.640, 1.660],
         2025: [1.710, 1.710, 1.660, 1.590, 1.560, 1.600, 1.650, 1.620, 1.620, 1.610, 1.680, 1.610],
-        2026: [1.650, 1.690, 2.060, 2.260, 2.150, 1.960, 2.112, null, null, null, null, null],
+        2026: [1.650, 1.690, 2.060, 2.260, 2.150, 1.960, 2.113, null, null, null, null, null],
     },
     SP95: {
         2019: [1.400, 1.430, 1.470, 1.540, 1.560, 1.510, 1.500, 1.480, 1.480, 1.480, 1.490, 1.510],
