@@ -219,5 +219,6 @@
 //   InseeFuelHistory.2026-11-02.js
 //   InseeFuelHistory.2026-11-03.js
 //   InseeFuelHistory.2026-11-04.js
+//   InseeFuelHistory.2026-11-05.js
 
-export { FUEL_PRICE_HISTORY } from './sources/InseeFuelHistory.2026-11-04.js';
+export { FUEL_PRICE_HISTORY } from './sources/InseeFuelHistory.2026-11-05.js';
